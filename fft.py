@@ -13,7 +13,7 @@ def signal_gen(time, fs, hz_list=[1]):
     return y
 
 
-def lk_matrix(n):
+def ij_matrix(n):
     result = np.zeros((n, n))
     for i in range(n):
         for j in range(i, n):
@@ -25,7 +25,7 @@ def lk_matrix(n):
 def dft_matrix(n):
     # Nで除算しない
     omega_n = np.exp(1j * 2 * np.pi / n)
-    return omega_n ** -lk_matrix(n)
+    return omega_n ** -ij_matrix(n)
 
 
 def my_dft(x: np.ndarray):

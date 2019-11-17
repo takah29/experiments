@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.fftpack import fft, ifft
+from scipy.fftpack import fft
 from time import perf_counter
 
 
@@ -48,8 +48,6 @@ def my_fft(x: np.ndarray):
 
 
 if __name__ == "__main__":
-    import numpy.testing as nptest
-
     fs = 2 ** 11
     nq = fs // 2
     time = 1

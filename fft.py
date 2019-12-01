@@ -30,7 +30,7 @@ def dft_matrix(n):
 
 def my_dft(x: np.ndarray):
     n = x.size
-    return x @ dft_matrix(n).T
+    return x @ dft_matrix(n)
 
 
 def my_fft(x: np.ndarray):
@@ -55,45 +55,46 @@ if __name__ == "__main__":
 
     # scipy FFT
     start = perf_counter()
-    S = fft(s)
+    S = fft(s)[:s.size // 2]
     print(f"scipy fft: {perf_counter() - start}")
 
     # DFT
     start = perf_counter()
-    T = my_dft(s)
+    T = my_dft(s)[:s.size // 2]
     print(f"dft: {perf_counter() - start}")
     assert (np.abs(S - T) < 1e-6).all()
 
     # FFT
     start = perf_counter()
-    U = my_fft(s)
+    U = my_fft(s)[:s.size // 2]
     print(f"my fft: {perf_counter() - start}")
     assert (np.abs(S - U) < 1e-6).all()
 
     # graph plot
     plt.subplot(4, 1, 1)
-    plt.title("waveform")
-    x = np.linspace(0, fs, time * fs)
+    plt.title(f"waveform (time={time}s, fs={fs}Hz)")
+    x = np.linspace(0, time, time * fs)
     plt.grid()
     plt.plot(x, s, c="blue")
+    plt.xlabel("sec")
 
     plt.subplot(4, 1, 2)
-    plt.title("scipy FFT")
+    plt.title("amplitude spectrum (scipy FFT)")
     x = np.linspace(0, nq, S.size)
     plt.grid()
     plt.plot(x, np.abs(S), c="red")
 
     plt.subplot(4, 1, 3)
-    plt.title("my DFT")
+    plt.title("amplitude spectrum (DFT)")
     x = np.linspace(0, nq, T.size)
     plt.grid()
+    plt.ylabel("amplitude")
     plt.plot(x, np.abs(T), c="green")
 
     plt.subplot(4, 1, 4)
-    plt.title("my FFT")
+    plt.title("amplitude spectrum (FFT)")
     x = np.linspace(0, nq, U.size)
     plt.grid()
-
     plt.plot(x, np.abs(U), c="orange")
 
     plt.xlabel("Hz")

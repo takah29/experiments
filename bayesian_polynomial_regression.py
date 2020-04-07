@@ -34,7 +34,7 @@ class BayesianPolynomialRegressor:
         vec_x = self.__vec(x)
         mu_star = np.dot(self.m_hat, vec_x)[0]
         l_star_inv = 1 / self.l + vec_x @ self.L_hat_inv @ vec_x.T
-        return mu_star, l_star_inv
+        return mu_star, np.sqrt(l_star_inv)
 
     def __vec(self, x):
         return np.array([x ** i for i in range(self.M)])
